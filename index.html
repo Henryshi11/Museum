@@ -13,7 +13,70 @@
         rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
-
+<script>
+    // Hide all audio controls initially and wire up click handlers
+    window.addEventListener('DOMContentLoaded', () => {
+      const containers = document.querySelectorAll('.grid-column-2');
+  
+      function showImagesFor(container) {
+        const btn  = container.querySelector('.play-button');
+        const bar  = container.querySelector('.color-bar');
+        const aud  = container.querySelector('.audio-player');
+        if (btn) btn.style.display = '';
+        if (bar) bar.style.display = '';
+        if (aud) aud.style.display = 'none';
+      }
+  
+      function showAudioFor(container) {
+        const btn  = container.querySelector('.play-button');
+        const bar  = container.querySelector('.color-bar');
+        const aud  = container.querySelector('.audio-player');
+        if (btn) btn.style.display = 'none';
+        if (bar) bar.style.display = 'none';
+        if (aud) aud.style.display = 'block';
+      }
+  
+      // Stop any other audios when one starts
+      function stopOthers(currentAudio) {
+        document.querySelectorAll('.audio-player').forEach(a => {
+          if (a !== currentAudio && !a.paused) {
+            a.pause();
+            a.currentTime = 0;
+            const c = a.closest('.grid-column-2');
+            if (c) showImagesFor(c);
+          }
+        });
+      }
+  
+      containers.forEach(container => {
+        const btn = container.querySelector('.play-button');
+        const bar = container.querySelector('.color-bar');
+        const aud = container.querySelector('.audio-player');
+  
+        if (!aud) return;
+  
+        // initial state: audio hidden, images shown
+        aud.style.display = 'none';
+        aud.preload = 'none';
+  
+        // click either the play image or the bar to start
+        [btn, bar].forEach(el => {
+          if (!el) return;
+          el.style.cursor = 'pointer';
+          el.addEventListener('click', () => {
+            showAudioFor(container);
+            stopOthers(aud);
+            aud.play();
+          });
+        });
+  
+        // when paused or ended, go back to images
+        aud.addEventListener('pause',  () => showImagesFor(container));
+        aud.addEventListener('ended',  () => showImagesFor(container));
+      });
+    });
+  </script>
+  
 <body>
     <header>
         <a class="logo" href="index.html">
@@ -93,34 +156,38 @@
                 <h2>Things I hear</h2><br><br><br>
                 <div class="grid-row-3">
                     <div class="grid-column-2">
+                        <div>
+                            <img src="/image/player.png" class="play-button" alt="play">
+                        </div>
+                        <div>
+                            <img src="/image/pink.png" class="color-bar" alt="pink">
+                        </div>
 
+                        <!-- hidden at start; will show when you click the image -->
+                        <audio class="audio-player" src="/assets/cat_meow.mp3" controls></audio>
+                    </div>
+
+                    <div class="grid-column-2">
                         <div>
-                            <!-- <audio controls>
-                                <source src="/assets/cat_meow.mp3" type="audio/mp3">
-                            </audio> -->
-                            <img src="/image/player.png">
+                            <img src="/image/player.png" class="play-button" alt="play">
                         </div>
                         <div>
-                            <img src="/image/pink.png" alt="pink">
+                            <img src="/image/green.png" class="color-bar" alt="green">
                         </div>
+
+                        <!-- hidden at start; will show when you click the image -->
+                        <audio class="audio-player" src="/assets/cat_meow.mp3" controls></audio>
                     </div>
                     <div class="grid-column-2">
                         <div>
-                            <img src="/image/player.png">
+                            <img src="/image/player.png" class="play-button" alt="play">
                         </div>
                         <div>
-                            <img src="/image/green.png" alt="green">
+                            <img src="/image/yellow.png" class="color-bar" alt="yellow">
                         </div>
 
-
-                    </div>
-                    <div class="grid-column-2">
-                        <div>
-                            <img src="/image/player.png">
-                        </div>
-                        <div>
-                            <img src="/image/yellow.png" alt="yellow">
-                        </div>
+                        <!-- hidden at start; will show when you click the image -->
+                        <audio class="audio-player" src="/assets/cat_meow.mp3" controls></audio>
                     </div>
                 </div>
         </section>
@@ -131,4 +198,5 @@
     </footer>
 
 </body>
+
 </html>
