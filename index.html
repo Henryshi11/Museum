@@ -16,67 +16,67 @@
 <script>
     // Hide all audio controls initially and wire up click handlers
     window.addEventListener('DOMContentLoaded', () => {
-      const containers = document.querySelectorAll('.grid-column-2');
-  
-      function showImagesFor(container) {
-        const btn  = container.querySelector('.play-button');
-        const bar  = container.querySelector('.color-bar');
-        const aud  = container.querySelector('.audio-player');
-        if (btn) btn.style.display = '';
-        if (bar) bar.style.display = '';
-        if (aud) aud.style.display = 'none';
-      }
-  
-      function showAudioFor(container) {
-        const btn  = container.querySelector('.play-button');
-        const bar  = container.querySelector('.color-bar');
-        const aud  = container.querySelector('.audio-player');
-        if (btn) btn.style.display = 'none';
-        if (bar) bar.style.display = 'none';
-        if (aud) aud.style.display = 'block';
-      }
-  
-      // Stop any other audios when one starts
-      function stopOthers(currentAudio) {
-        document.querySelectorAll('.audio-player').forEach(a => {
-          if (a !== currentAudio && !a.paused) {
-            a.pause();
-            a.currentTime = 0;
-            const c = a.closest('.grid-column-2');
-            if (c) showImagesFor(c);
-          }
+        const containers = document.querySelectorAll('.grid-column-2');
+
+        function showImagesFor(container) {
+            const btn = container.querySelector('.play-button');
+            const bar = container.querySelector('.color-bar');
+            const aud = container.querySelector('.audio-player');
+            if (btn) btn.style.display = '';
+            if (bar) bar.style.display = '';
+            if (aud) aud.style.display = 'none';
+        }
+
+        function showAudioFor(container) {
+            const btn = container.querySelector('.play-button');
+            const bar = container.querySelector('.color-bar');
+            const aud = container.querySelector('.audio-player');
+            if (btn) btn.style.display = 'none';
+            if (bar) bar.style.display = 'none';
+            if (aud) aud.style.display = 'block';
+        }
+
+        // Stop any other audios when one starts
+        function stopOthers(currentAudio) {
+            document.querySelectorAll('.audio-player').forEach(a => {
+                if (a !== currentAudio && !a.paused) {
+                    a.pause();
+                    a.currentTime = 0;
+                    const c = a.closest('.grid-column-2');
+                    if (c) showImagesFor(c);
+                }
+            });
+        }
+
+        containers.forEach(container => {
+            const btn = container.querySelector('.play-button');
+            const bar = container.querySelector('.color-bar');
+            const aud = container.querySelector('.audio-player');
+
+            if (!aud) return;
+
+            // initial state: audio hidden, images shown
+            aud.style.display = 'none';
+            aud.preload = 'none';
+
+            // click either the play image or the bar to start
+            [btn, bar].forEach(el => {
+                if (!el) return;
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', () => {
+                    showAudioFor(container);
+                    stopOthers(aud);
+                    aud.play();
+                });
+            });
+
+            // when paused or ended, go back to images
+            aud.addEventListener('pause', () => showImagesFor(container));
+            aud.addEventListener('ended', () => showImagesFor(container));
         });
-      }
-  
-      containers.forEach(container => {
-        const btn = container.querySelector('.play-button');
-        const bar = container.querySelector('.color-bar');
-        const aud = container.querySelector('.audio-player');
-  
-        if (!aud) return;
-  
-        // initial state: audio hidden, images shown
-        aud.style.display = 'none';
-        aud.preload = 'none';
-  
-        // click either the play image or the bar to start
-        [btn, bar].forEach(el => {
-          if (!el) return;
-          el.style.cursor = 'pointer';
-          el.addEventListener('click', () => {
-            showAudioFor(container);
-            stopOthers(aud);
-            aud.play();
-          });
-        });
-  
-        // when paused or ended, go back to images
-        aud.addEventListener('pause',  () => showImagesFor(container));
-        aud.addEventListener('ended',  () => showImagesFor(container));
-      });
     });
-  </script>
-  
+</script>
+
 <body>
     <header>
         <a class="logo" href="index.html">
@@ -98,12 +98,19 @@
                 <h2>Frequently Use Items</h2>
                 <div class="grid-half">
                     <div>
-                        <model-viewer at="slippers" src="assets/slippers.glb" camera-controls
+                        <model-viewer at="chicken_nugget" src="assets/chicken_nugget.glb" camera-controls
                             auto-rotate></model-viewer>
                     </div>
                     <div>
-                        <p>Soft, worn, and reliable — these slippers have followed me through quiet mornings and long
-                            study nights.</p>
+                        <p>Few things in this world achieve perfection as effortlessly as the humble chicken nugget.
+                            Golden on the outside, tender on the inside — it’s not just food, it’s an emotion. That
+                            crisp, delicate shell gives way to juicy, seasoned bliss with every bite, a reminder that
+                            simplicity done right can conquer all. Chicken nuggets don’t boast, yet they command loyalty
+                            from children and adults alike. They’re the universal comfort food — equally at home in a
+                            five-star meal or a midnight snack run. Dip them in ketchup, honey mustard, barbecue, or eat
+                            them plain — they never disappoint. Every nugget is a tiny masterpiece: warm, nostalgic, and
+                            unapologetically joyful. In an age of culinary trends and fleeting fads, chicken nuggets
+                            remain eternal — crispy proof that true happiness often comes in bite-sized pieces.</p>
                         <a class="bttn" href="https://google.com">google</a>
                     </div>
                 </div>
@@ -120,21 +127,21 @@
                         <p>Anna</p>
                     </div>
                     <div> <img src="image/people2.png" alt="people2">
-                        <p>aaaaaa</p>
+                        <p>Bnna</p>
                     </div>
                     <div> <img src="image/people3.png" alt="people3">
-                        <p>lsdkfdslkkf</p>
+                        <p>jnna</p>
                     </div>
                     <div> <img src="image/people4.png" alt="people4">
-                        <p>sdgsd</p>
+                        <p>Sean</p>
                     </div>
                     <div>
                         <img src="image/people5.png" alt="people5">
-                        <p>asdasd</p>
+                        <p>Leggie</p>
                     </div>
                     <div>
                         <img src="image/people6.png" alt="people6">
-                        <p>asdasd</p>
+                        <p>Sam</p>
                     </div>
                 </div>
 
